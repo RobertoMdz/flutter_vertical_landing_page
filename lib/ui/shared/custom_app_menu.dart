@@ -1,8 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CustomAppMenu extends StatelessWidget {
+class CustomAppMenu extends StatefulWidget {
   const CustomAppMenu({Key? key}) : super(key: key);
+
+  @override
+  _CustomAppMenuState createState() => _CustomAppMenuState();
+}
+
+class _CustomAppMenuState extends State<CustomAppMenu>
+    with SingleTickerProviderStateMixin {
+  bool isOpen = false;
+  late AnimationController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 250));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,8 +29,14 @@ class CustomAppMenu extends StatelessWidget {
       height: 50,
       color: Colors.black,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          AnimatedContainer(
+            duration: Duration(
+              milliseconds: 250,
+            ),
+            curve: Curves.easeInOut,
+            width: isOpen ? 30 : 0,
+          ),
           Text(
             'Menu',
             style: GoogleFonts.roboto(
@@ -21,9 +44,26 @@ class CustomAppMenu extends StatelessWidget {
               fontSize: 18,
             ),
           ),
-          Icon(
-            Icons.menu,
-            color: Colors.white,
+          const Spacer(),
+          MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: GestureDetector(
+              onTap: () {
+                if (isOpen) {
+                  controller.reverse();
+                } else {
+                  controller.forward();
+                }
+                setState(() {
+                  isOpen = !isOpen;
+                });
+              },
+              child: AnimatedIcon(
+                icon: AnimatedIcons.menu_close,
+                color: Colors.white,
+                progress: controller,
+              ),
+            ),
           )
         ],
       ),

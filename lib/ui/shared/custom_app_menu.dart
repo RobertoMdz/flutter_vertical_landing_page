@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/page_provider.dart';
 import 'custom_menu_item.dart';
 
 class CustomAppMenu extends StatefulWidget {
@@ -25,6 +27,7 @@ class _CustomAppMenuState extends State<CustomAppMenu>
 
   @override
   Widget build(BuildContext context) {
+    final pageProvider = Provider.of<PageProvider>(context, listen: false);
     return GestureDetector(
       onTap: () {
         if (isOpen) {
@@ -49,23 +52,23 @@ class _CustomAppMenuState extends State<CustomAppMenu>
               if (isOpen) ...[
                 CustomMenuItemWidget(
                   text: 'Home',
-                  onPressed: () {},
+                  onPressed: () => pageProvider.goToPage(0),
                 ),
                 CustomMenuItemWidget(
                   text: 'About',
-                  onPressed: () {},
+                  onPressed: () => pageProvider.goToPage(1),
                 ),
                 CustomMenuItemWidget(
                   text: 'Pricing',
-                  onPressed: () {},
+                  onPressed: () => pageProvider.goToPage(2),
                 ),
                 CustomMenuItemWidget(
                   text: 'Contact',
-                  onPressed: () {},
+                  onPressed: () => pageProvider.goToPage(3),
                 ),
                 CustomMenuItemWidget(
                   text: 'Location',
-                  onPressed: () {},
+                  onPressed: () => pageProvider.goToPage(4),
                 ),
               ]
             ],

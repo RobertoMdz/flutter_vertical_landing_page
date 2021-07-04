@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/page_provider.dart';
 import '../shared/custom_app_menu.dart';
 import '../views/about_view.dart';
 import '../views/contact_view.dart';
@@ -47,7 +49,10 @@ class _HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pageControllerProvider =
+        Provider.of<PageProvider>(context, listen: false);
     return PageView(
+      controller: pageControllerProvider.pageController,
       scrollDirection: Axis.vertical,
       pageSnapping: false,
       children: [

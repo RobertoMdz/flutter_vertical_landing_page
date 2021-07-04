@@ -2,6 +2,9 @@ import 'package:fluro/fluro.dart';
 
 import '../ui/pages/home_page.dart';
 
-final homeHandler = Handler(handlerFunc: (context, params) {
-  return HomePage();
-});
+final homeHandler = Handler(
+  handlerFunc: (context, params) {
+    final pageRoute = params['page']!.first;
+    if (pageRoute != '/') return HomePage();
+  },
+);

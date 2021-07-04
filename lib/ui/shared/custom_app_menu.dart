@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'custom_menu_item.dart';
+
 class CustomAppMenu extends StatefulWidget {
   const CustomAppMenu({Key? key}) : super(key: key);
 
@@ -23,11 +25,72 @@ class _CustomAppMenuState extends State<CustomAppMenu>
 
   @override
   Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        if (isOpen) {
+          controller.reverse();
+        } else {
+          controller.forward();
+        }
+        setState(() {
+          isOpen = !isOpen;
+        });
+      },
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: Container(
+          padding: EdgeInsets.all(10.0),
+          width: 150,
+          height: isOpen ? 400 : 50,
+          color: Colors.black,
+          child: Column(
+            children: [
+              _MenuTitleWidget(isOpen: isOpen, controller: controller),
+              if (isOpen) ...[
+                CustomMenuItemWidget(
+                  text: 'Home',
+                  onPressed: () {},
+                ),
+                CustomMenuItemWidget(
+                  text: 'About',
+                  onPressed: () {},
+                ),
+                CustomMenuItemWidget(
+                  text: 'Pricing',
+                  onPressed: () {},
+                ),
+                CustomMenuItemWidget(
+                  text: 'Contact',
+                  onPressed: () {},
+                ),
+                CustomMenuItemWidget(
+                  text: 'Location',
+                  onPressed: () {},
+                ),
+              ]
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _MenuTitleWidget extends StatelessWidget {
+  const _MenuTitleWidget({
+    Key? key,
+    required this.isOpen,
+    required this.controller,
+  }) : super(key: key);
+
+  final bool isOpen;
+  final AnimationController controller;
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10.0),
       width: 150,
-      height: 50,
-      color: Colors.black,
+      height: 30,
       child: Row(
         children: [
           AnimatedContainer(
@@ -35,7 +98,7 @@ class _CustomAppMenuState extends State<CustomAppMenu>
               milliseconds: 250,
             ),
             curve: Curves.easeInOut,
-            width: isOpen ? 30 : 0,
+            width: isOpen ? 40 : 0,
           ),
           Text(
             'Menu',
@@ -45,26 +108,11 @@ class _CustomAppMenuState extends State<CustomAppMenu>
             ),
           ),
           const Spacer(),
-          MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              onTap: () {
-                if (isOpen) {
-                  controller.reverse();
-                } else {
-                  controller.forward();
-                }
-                setState(() {
-                  isOpen = !isOpen;
-                });
-              },
-              child: AnimatedIcon(
-                icon: AnimatedIcons.menu_close,
-                color: Colors.white,
-                progress: controller,
-              ),
-            ),
-          )
+          AnimatedIcon(
+            icon: AnimatedIcons.menu_close,
+            color: Colors.white,
+            progress: controller,
+          ),
         ],
       ),
     );

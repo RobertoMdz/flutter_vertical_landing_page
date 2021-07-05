@@ -8,6 +8,7 @@ class PageProvider extends ChangeNotifier {
 
   void createScrollController(String routeName) {
     pageController = PageController(initialPage: getPageIndex(routeName));
+    html.document.title = pages[getPageIndex(routeName)].toUpperCase();
 
     pageController.addListener(() {
       final pageIndex = (pageController.page ?? 0).round();
@@ -15,6 +16,7 @@ class PageProvider extends ChangeNotifier {
       if (pageIndex != _currentIndex) {
         html.window.history.pushState(null, 'none', '#/${pages[pageIndex]}');
         _currentIndex = pageIndex;
+        html.document.title = pages[pageIndex].toUpperCase();
       }
     });
   }

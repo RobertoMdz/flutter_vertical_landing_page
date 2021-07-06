@@ -7,7 +7,7 @@ class ContactView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.green,
+      color: Colors.brown,
       child: Center(
         child: Text(
           'Contact',
